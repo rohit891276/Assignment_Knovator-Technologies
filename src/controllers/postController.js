@@ -1,19 +1,19 @@
 const PostModel = require('../models/postModel.js');
 
-const { isValid, isValidRequest, nameRegex, alphaNumericValid } = require('../validator/validations.js')
+const { isValidObjectId, isValid, isValidRequest, nameRegex, alphaNumericValid } = require('../validator/validations.js')
 
 // C - Create
 const createPost = async function (req, res) {
     try {
         const postData = req.body;
-        const userId = req.params.userId;
-        
+        // const userId = req.params.userId;
+
         // validation for empty body
         if (!isValidRequest(postData))
             return res.status(400).send({ status: false, message: "Post data is required" });
 
         // Destructuring
-        const { title, body, status, createdBy, geo_Location } = postData;
+        const { title, body, status, userId, createdBy, geo_Location } = postData;
 
 
         if (await PostModel.findOne({ title: title })) {
@@ -34,6 +34,10 @@ const createPost = async function (req, res) {
             if (status != "Active" && status != "Inactive")
                 return res.status(400).send({ status: false, message: "enter status [Active, Inactive]" });
         }
+
+        //validation for userId
+        if (!isValidObjectId(userId))
+            return res.status(400).send({ status: false, message: "Please provide valid userId" });
 
         //validation for createdBy
         if (!isValid(createdBy))

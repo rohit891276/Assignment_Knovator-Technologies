@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const postSchema = new mongoose.Schema(
     {
@@ -14,6 +15,11 @@ const postSchema = new mongoose.Schema(
             type: String,
             enum: ["Active", "Inactive"],
             default: "Active"
+        },
+        userId: {
+            type: ObjectId,
+            required: true,
+            ref: "User"
         },
         createdBy: {
             type: String,

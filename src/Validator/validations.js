@@ -1,3 +1,9 @@
+const mongoose = require('mongoose');
+
+const isValidObjectId = (objectId) => {
+    if (mongoose.Types.ObjectId.isValid(objectId)) return true;
+    return false;
+}
 
 const isValid = (value) => {
     if (typeof (value) === 'undefined' || value === null) return false
@@ -38,5 +44,5 @@ const alphaNumericValid = (value) => {
 
 
 
-module.exports = { isValid, isValidRequest, nameRegex, mailRegex, passwordRegex, alphaNumericValid }
+module.exports = { isValidObjectId, isValid, isValidRequest, nameRegex, mailRegex, passwordRegex, alphaNumericValid }
 
